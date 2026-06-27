@@ -252,6 +252,15 @@ function renderTraits(student) {
   `;
 }
 
+/*
+[보안 점검용 주석]
+1. 프론트엔드에 API 키를 넣으면 개발자 도구에서 노출될 수 있습니다.
+2. Gemini API 호출은 Vercel Serverless Function에서 처리합니다.
+3. .env 파일은 GitHub에 올리지 않습니다.
+4. Vercel 배포 시에는 Project Settings의 Environment Variables에 GEMINI_API_KEY를 등록해야 합니다.
+5. Gemini로 전송하는 데이터는 이름, 학번, 사진 경로를 제외한 최소 정보로 제한합니다.
+*/
+
 let currentCounselingStudent = null;
 let currentAlias = "";
 
@@ -279,10 +288,10 @@ window.selectStudentForCounseling = function(studentId) {
   aiLoading.classList.add("hidden");
   errorMsg.textContent = "";
   
-  infoArea.innerHTML = \`
-    <p style="margin: 0 0 8px 0;"><strong>화면 표시용 (전송 안 됨):</strong> \${student.name} (학번: \${student.id})</p>
-    <p style="margin: 0; color: var(--danger);"><strong>AI 전송용 익명화 이름:</strong> \${currentAlias}</p>
-  \`;
+  infoArea.innerHTML = `
+    <p style="margin: 0 0 8px 0;"><strong>화면 표시용 (전송 안 됨):</strong> ${student.name} (학번: ${student.id})</p>
+    <p style="margin: 0; color: var(--danger);"><strong>AI 전송용 익명화 이름:</strong> ${currentAlias}</p>
+  `;
 
   concernInput.value = "";
   
@@ -298,7 +307,7 @@ window.selectStudentForCounseling = function(studentId) {
 };
 
 function getGradeSummary(grades) {
-  return Object.entries(grades).map(([k, v]) => \`\${k}: \${v}\`).join(', ');
+  return Object.entries(grades).map(([k, v]) => `${k}: ${v}`).join(', ');
 }
 
 function getTraitsSummary(student) {
@@ -370,4 +379,3 @@ async function handleAiRequest() {
 }
 
 showOnly(loginView);
-
